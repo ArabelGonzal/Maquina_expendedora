@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menús Saludables</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f4f6f9;
+    }
+
+    .menu-card {
+      border: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      height: 100%;
+      position: relative;
+    }
+
+    .menu-card:hover {
+      transform: scale(1.02);
+    }
+
+    .menu-card.disabled {
+      filter: grayscale(100%);
+      opacity: 0.6;
+      pointer-events: none;
+      position: relative;
+    }
+
+    .menu-card.disabled::after {
+      content: "No disponible por alergia";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .price {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .btn-buy {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      padding: 5px 10px;
+    }
+
+    .btn-buy:hover {
+      background-color: #0056b3;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-volver {
+      background-color: #6c757d;
+      color: white;
+      border-radius: 6px;
+    }
+
+    .btn-volver:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container py-4">
+
+    <button class="btn btn-volver mb-3" onclick="volver()">Volver</button>
+
+    <h2 class="text-center mb-4 fw-bold">Menús Saludables</h2>
+
+    <div class="row g-3">
+
+      <!-- 1️⃣ Ensalada de Frutas -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card menu-card" data-alergia="Ensalada-de_frutas">
+          <img src="https://i.ibb.co/9HsHJm7p/Whats-App-Image-2025-11-14-at-09-24-21.jpg" class="card-img-top" alt="Ensalada de frutas">
+          <div class="card-body">
+            <h5 class="card-title">Ensalada de Frutas</h5>
+            <p class="card-text">Mezcla fresca de frutas: manzana, banana, frutillas, arándanos y naranja.</p>
+            <div class="price-row">
+              <span class="price">$2.500</span>
+              <button class="btn-buy" onclick="comprar('Ensalada de Frutas')">Comprar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2️⃣ Sandwich -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card menu-card" data-alergia="pescado">
+          <img src="https://i.ibb.co/NHtgVh6/Whats-App-Image-2025-11-14-at-09-24-21-3.jpg" class="card-img-top" alt="Sandwich">
+          <div class="card-body">
+            <h5 class="card-title">Sandwich</h5>
+            <p class="card-text">Sandwich de huevo, tomate, lechuga y pollo.</p>
+            <div class="price-row">
+              <span class="price">$12.00</span>
+              <button class="btn-buy" onclick="comprar('Sandwich')">Comprar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3️⃣ Mandioca rellena de queso -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card menu-card" data-alergia="gluten">
+          <img src="https://i.ibb.co/RG1QmGKT/Whats-App-Image-2025-11-14-at-09-24-21-2.jpg" class="card-img-top" alt="Mandioca rellena de queso">
+          <div class="card-body">
+            <h5 class="card-title">Mandioca Rellena de Queso</h5>
+            <p class="card-text">La masa está hecha de mandioca y está rellena de queso.</p>
+            <div class="price-row">
+              <span class="price">$7.00</span>
+              <button class="btn-buy" onclick="comprar('Mandioca Rellena de Queso')">Comprar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4️⃣ Jugo de Naranja Natural -->
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card menu-card" data-alergia="frutos-secos">
+          <img src="https://i.ibb.co/gL5Kfswz/Whats-App-Image-2025-11-14-at-09-24-21-1.jpg" class="card-img-top" alt="Jugo de naranja natural">
+          <div class="card-body">
+            <h5 class="card-title">Jugo de Naranja Natural</h5>
+            <p class="card-text">Jugo de naranja natural.</p>
+            <div class="price-row">
+              <span class="price">$8.50</span>
+              <button class="btn-buy" onclick="comprar('Jugo de Naranja Natural')">Comprar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="compraModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title w-100">¡Gracias por tu compra!</h5>
+        </div>
+        <div class="modal-body">
+          <p id="productoComprado" class="fs-5 fw-bold text-secondary"></p>
+          <p>Tu pedido ha sido registrado correctamente 🛍️</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="volver()">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const personas = [
+      { nombre: "Juan", alergias: ["gluten", "lactosa"] },
+      { nombre: "María", alergias: ["pescado"] },
+      { nombre: "Pedro", alergias: ["frutos-secos"] },
+      { nombre: "Ana", alergias: [] }
+    ];
+
+    function inicializarMenu() {
+      try {
+        const nombre = window.AppInventor.getWebViewString();
+        if (nombre) actualizarMenu(nombre);
+      } catch (e) {}
+    }
+
+    function actualizarMenu(nombre) {
+      const persona = personas.find(p => p.nombre.toLowerCase() === nombre.toLowerCase());
+      document.querySelectorAll('.menu-card').forEach(el => el.classList.remove('disabled'));
+
+      if (!persona) return;
+
+      persona.alergias.forEach(alergia => {
+        document.querySelectorAll(`[data-alergia="${alergia}"]`).forEach(el => el.classList.add('disabled'));
+      });
+    }
+
+    function comprar(producto) {
+      try {
+        window.AppInventor.setWebViewString(producto);
+      } catch(e) {}
+
+      document.getElementById("productoComprado").innerText = producto;
+      new bootstrap.Modal(document.getElementById('compraModal')).show();
+    }
+
+    function volver() {
+      try {
+        window.AppInventor.setWebViewString("volver");
+      } catch(e) {}
+    }
+
+    window.onload = inicializarMenu;
+  </script>
+
+</body>
+</html>
